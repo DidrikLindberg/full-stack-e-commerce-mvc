@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../models');
+const { User, Product, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 
@@ -91,6 +91,18 @@ router.get('/login', (req, res) => {
       res.status(500).json(err);
     }
   });
+
+  // get all products
+  router.get('/products', async (req, res) => {
+    try {
+      const productData = await Product.findAll();
+      const products = productData.map((product) => product.get({ plain: true }));
+      res.render('products', { products, logged_in: req.session.logged_in });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
 
 
   module.exports = router;
