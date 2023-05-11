@@ -51,9 +51,9 @@ router.get('/login', (req, res) => {
     res.render('login');
   });
   
-  router.get('/dashboard', withAuth, async (req, res) => {
+  router.get('/homepage', withAuth, async (req, res) => {
     try {
-    res.render('dashboard', {
+    res.render('homepage', {
     logged_in: req.session.logged_in,
     });
     } catch (err) {
