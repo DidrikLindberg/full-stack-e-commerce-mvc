@@ -1,0 +1,104 @@
+Models:
+
+User
+Product
+Order
+OrderItem
+Payment
+Address
+Review
+Category
+Relationships:
+
+A User can have many Addresses (one-to-many)
+An Order belongs to one User (one-to-many)
+An Order has many OrderItems (one-to-many)
+A Product can belong to many Categories (many-to-many)
+An OrderItem belongs to one Product (one-to-many)
+An OrderItem belongs to one Order (one-to-many)
+An Order has one Payment (one-to-one)
+An Order has one Address (one-to-one)
+A Product has many Reviews (one-to-many)
+A User can have many Reviews (one-to-many)
+User:
+
+id: INT (primary key)
+first_name: VARCHAR(255)
+last_name: VARCHAR(255)
+email: VARCHAR(255) (unique)
+password: VARCHAR(255)
+phone: VARCHAR(255)
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+Product:
+
+id: INT (primary key)
+name: VARCHAR(255)
+description: TEXT
+price: DECIMAL(10, 2)
+image_url: VARCHAR(255)
+quantity: INT
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+Order:
+
+id: INT (primary key)
+user_id: INT (foreign key)
+payment_id: INT (foreign key)
+address_id: INT (foreign key)
+total_amount: DECIMAL(10, 2)
+status: ENUM('created', 'processed', 'shipped', 'delivered')
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+OrderItem:
+
+id: INT (primary key)
+order_id: INT (foreign key)
+product_id: INT (foreign key)
+quantity: INT
+price: DECIMAL(10, 2)
+Payment:
+
+id: INT (primary key)
+order_id: INT (foreign key)
+payment_method: ENUM('credit_card', 'paypal', 'cash_on_delivery')
+transaction_id: VARCHAR(255)
+amount: DECIMAL(10, 2)
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+Address:
+
+id: INT (primary key)
+user_id: INT (foreign key)
+name: VARCHAR(255)
+line_1: VARCHAR(255)
+line_2: VARCHAR(255)
+city: VARCHAR(255)
+state: VARCHAR(255)
+zip_code: VARCHAR(255)
+country: VARCHAR(255)
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+Review:
+
+id: INT (primary key)
+user_id: INT (foreign key)
+product_id: INT (foreign key)
+rating: INT
+comment: TEXT
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+Category:
+
+id: INT (primary key)
+name: VARCHAR(255)
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+ProductCategory:
+
+id: INT (primary key)
+product_id: INT (foreign key)
+category_id: INT (foreign key)
+created_at: TIMESTAMP
+updated_at: TIMESTAMP
+In this design, each model has its own table in the database, and the relationships between the models are represented using foreign keys. For example, the user_id column in the Order table is a foreign key that references the id column in the
