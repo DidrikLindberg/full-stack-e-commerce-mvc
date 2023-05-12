@@ -1,0 +1,42 @@
+<!-- product.handlebars -->
+{{#each product}}
+  <div class="product-container">
+    <div class="product-image-container">
+      <img class="product-image" src="{{image_url}}" alt="{{name}}">
+    </div>
+    <div class="product-details-container">
+      <h2 class="product-name">{{name}}</h2>
+      <p class="product-description">{{description}}</p>
+      <p class="product-price">${{price}}</p>
+      <div class="product-buttons">
+        <a href="/products/{{id}}/edit" class="product-edit-button">Edit</a>
+        <form action="/products/{{id}}?_method=DELETE" method="post">
+          <button class="product-delete-button" type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-reviews-container">
+    <h2 class="reviews-heading">Reviews</h2>
+    {{#if reviews.length}}
+      {{#each reviews}}
+        <div class="review-container">
+          <p class="review-text">{{text}}</p>
+          <p class="review-author">By {{user.username}}</p>
+        </div>
+      {{/each}}
+    {{else}}
+      <p class="no-reviews-message">There are no reviews yet for this product. Be the first to write one!</p>
+    {{/if}}
+  </div>
+
+  <form class="add-review-form" action="/reviews" method="post">
+    <input type="hidden" name="product_id" value="{{id}}">
+    <div class="form-group">
+      <label for="review-text">Write a review:</label>
+      <textarea class="form-control" name="text" id="review-text" rows="5"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+{{/each}}

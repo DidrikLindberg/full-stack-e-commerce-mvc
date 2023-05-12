@@ -57,8 +57,15 @@ Product.init(
         model: 'category',
         key: 'id'
       }
-    }
+    },
+
+    product_description: {
+        type: DataTypes.STRING,
   },
+
+
+    },
+
   {
     sequelize,
     timestamps: false,

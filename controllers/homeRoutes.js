@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Product, Comment } = require('../models');
+const { User, Product, Review, ProductReview } = require('../models');
 const withAuth = require('../utils/auth');
 
 
@@ -62,35 +62,32 @@ router.get('/login', (req, res) => {
     });
 
 
-  //get post by id 
-  router.get('/posts/:id', async (req, res) => {
-    try {
-      const postData = await Post.findByPk(req.params.id, {
-        include: [
+ // get product by id 
+router.get('/products/:id', async (req, res) => {
+  try {
+    const productData = await Product.findByPk(req.params.id, {
+      include: [
+        {
+          model: ProductReview,
+          include: [
             {
-                model: Comment,
-                include: [
-                    {
-                      model: User,
-                      attributes: ['username']
-                    }
-                  ]
-                },
-                {
-                  model: User,
-                  attributes: ['username']
-                }
-              ]
-            });
-  
-      const post = postData.get({ plain: true });
-      // Send over the 'loggedIn' session variable to the 'post' template
-      res.render('post', { post, logged_in: req.session.logged_in });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json(err);
-    }
-  });
+              model: User,
+              attributes: ['username']
+            }
+          ]
+        }
+      ]
+    });
+
+    const product = productData.get({ plain: true });
+    // Send over the 'loggedIn' session variable to the 'product' template
+    res.render('product', { product, logged_in: req.session.logged_in });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 
   // get all products
   router.get('/products', async (req, res) => {
